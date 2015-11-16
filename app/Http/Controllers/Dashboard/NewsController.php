@@ -71,7 +71,7 @@ class NewsController extends Controller
 
 
         // Save Images
-        if (array_shift($request->file('images')) != null) {
+        if (@array_shift($request->file('images')) != null) {
             foreach ($request->file('images') as $image) {
                 $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
                 $imagePath = $image->move('img/news/' . $news->id . '/', $imageName);
