@@ -36,16 +36,17 @@ class NewsFormRequest extends Request
             'published'=>'required'
         ];
 
-        foreach($this->file('images') as $key => $val)
-        {
-            $rules['images.'.$key] = 'image';
+        if($this->file('images') != null){
+            foreach($this->file('images') as $key => $val)
+            {
+                $rules['images.'.$key] = 'image';
+            }
         }
-
         return $rules;
     }
 
     /**
-     * Get the validation attributes that apply to the request.
+         * Get the validation attributes that apply to the request.
      *
      * @return array
      */
