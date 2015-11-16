@@ -38,7 +38,7 @@
         <div class="col-sm-10">
             <div class="row">
                 @foreach($images as $image)
-                    {!! Form::checkbox('images[]', $image, true) !!}
+                    {!! Form::checkbox('currentImages[]', $image, true) !!}
                     <img src="{{asset($image)}}" alt="" class="" width="100" height="100">
                 @endforeach
 
