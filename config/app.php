@@ -168,7 +168,12 @@ return [
         /*
          * Laracasts Flash
          * */
-        Laracasts\Flash\FlashServiceProvider::class
+        Laracasts\Flash\FlashServiceProvider::class,
+
+        /*
+         * Laravel Slug
+         * */
+        Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
 
     ],
 
