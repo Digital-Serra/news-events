@@ -24,10 +24,16 @@ class News extends Model implements SluggableInterface
 
     public function getTagsAttribute()
     {
-        foreach ($this->tags()->get()->toArray() as $key => $value) {
-            $array[$key] = $value['name'];
+
+        if($this->tags()->get()->toArray() != []){
+            foreach ($this->tags()->get()->toArray() as $key => $value) {
+                $array[$key] = $value['name'];
+            }
+
+            $tags = implode(',',$array);
+        }else{
+            $tags = '';
         }
-        $tags = implode(',',$array);
 
         return $tags;
     }
