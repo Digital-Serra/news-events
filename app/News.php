@@ -21,7 +21,6 @@ class News extends Model implements SluggableInterface
         'published',
     ];
 
-
     public function getTagsAttribute()
     {
 
