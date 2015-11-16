@@ -66,16 +66,18 @@ class NewsController extends Controller {
 
 
 		// Save Images
-		foreach($request->file('images') as $image){
-			$imageName = uniqid().'.'.$image->getClientOriginalExtension();
-			$imagePath = $image->move('img/news/'.$news->id.'/', $imageName);
+		if(array_shift($request->file('images')) != null){
+			foreach($request->file('images') as $image){
+				$imageName = uniqid().'.'.$image->getClientOriginalExtension();
+				$imagePath = $image->move('img/news/'.$news->id.'/', $imageName);
 
-			$picture = new Picture();
-			$picture->path = $imagePath;
-			$picture->ext = $image->getClientOriginalExtension();
-			$picture->news_id = $news->id;
+				$picture = new Picture();
+				$picture->path = $imagePath;
+				$picture->ext = $image->getClientOriginalExtension();
+				$picture->news_id = $news->id;
 
-			$picture->save();
+				$picture->save();
+			}
 		}
 
 		Flash::success('Notícia cadastrada!');
@@ -126,7 +128,7 @@ class NewsController extends Controller {
 		$news = News::find($id);
 		$news->fill($request->all());
 		if(!empty($request->file('image'))){
-			File::delete(base_path().'/public/img/newss/'.$id.'.'.$news->img_ext);
+			File::delete(base_path().'/public/img/news/'.$id.'.'.$news->img_ext);
 
 			$news->img_ext = $request->file('image')->getClientOriginalExtension();
 			//Save News image
