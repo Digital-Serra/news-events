@@ -37,9 +37,10 @@
 
         <div class="col-sm-10">
             <div class="row">
+                Marque as imagens que deseja excluir: <br>
                 @foreach($images as $image)
-                    {!! Form::checkbox('currentImages[]', $image, true) !!}
-                    <img src="{{asset($image)}}" alt="" class="" width="100" height="100">
+                    {!! Form::checkbox('currentImages[]', $image, false) !!}
+                    <img src="{{asset($image)}}" alt="" class="" width="100" height="100"> <br><br>
                 @endforeach
 
             </div>
