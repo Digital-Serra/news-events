@@ -10,7 +10,7 @@
     @foreach($allNews as $singleNews)
     <div class="item  col-xs-4 col-lg-4">
         <div class="thumbnail">
-            <img class="img-responsive" style="width: auto; height:300px !important" src="{{ asset($singleNews->pictures()->first()->path) }}"
+            <img class="img-responsive" style="width: auto; height:300px !important" src="{{ $singleNews->pictures()->get()->first() != null ? asset($singleNews->pictures()->get()->first()->path) : '' }}"
                  alt=""/>
 
             <div class="caption" style="word-wrap: break-word;">
