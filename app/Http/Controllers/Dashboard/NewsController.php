@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Session;
@@ -166,17 +168,39 @@ class NewsController extends Controller
 
         // Save the tags
         $tags = array_filter(array_map('trim', explode(',', $request->get('tags'))));
-        foreach ($tags as $tag) {
-            if (Tag::where('name', '=', $tag)->first() == null) {
-                $newTag = Tag::create(['name' => $tag]);
-                $tagsList[] = $newTag;
-            } else {
-                $tagId = Tag::where('name', '=', $tag)->first()->id;
-                $tagsList[] = $tagId;
+        if($tags != []){
+            foreach ($tags as $tag) {
+                if (Tag::where('name', '=', $tag)->first() == null) {
+                    $newTag = Tag::create(['name' => $tag]);
+                    $tagsList[] = $newTag;
+                } else {
+                    $tagId = Tag::where('name', '=', $tag)->first()->id;
+                    $tagsList[] = $tagId;
+                }
             }
+
+            $syncTags = $news->tags()->sync($tagsList);
         }
 
-        $syncTags = $news->tags()->sync($tagsList);
+        // Save Images
+        if ($request->get('currentImages') != null) {
+            if(array_shift($request->get('currentImages')) != null){
+                foreach ($request->get('currentImages') as $image) {
+                    $pictureIds[] = Picture::where('path','=',$image)->first()->id;
+                }
+
+                $deletePictures = DB::table('pictures')->where('news_id', $id)->whereIn('id',$pictureIds);
+
+                foreach($deletePictures->get() as $ids){
+                    File::delete((base_path() . '/public/' . $ids->path));
+                    if (count(glob((base_path() . '/public/img/news/'.$id.'/*'))) === 0 ){
+                        rmdir(base_path() . '/public/img/news/'.$id);
+                    }
+                }
+
+                $deletePictures->delete();
+            }
+        }
 
         Flash::success('Notícia atualizada!');
         return redirect(route('news.index'));
