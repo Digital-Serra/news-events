@@ -129,7 +129,7 @@ class NewsController extends Controller
         ];
 
         if ($request->file('images') != null) {
-            foreach ($this->file('images') as $key => $val) {
+            foreach ($request->file('images') as $key => $val) {
                 $rules['images.' . $key] = 'image';
             }
         }
@@ -201,6 +201,21 @@ class NewsController extends Controller
                 }
 
                 $deletePictures->delete();
+            }
+        }
+
+        // Save new Images
+        if (array_shift($request->file('images')) != null) {
+            foreach ($request->file('images') as $image) {
+                $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->move('img/news/' . $news->id . '/', $imageName);
+
+                $picture = new Picture();
+                $picture->path = $imagePath;
+                $picture->ext = $image->getClientOriginalExtension();
+                $picture->news_id = $news->id;
+
+                $picture->save();
             }
         }
 
