@@ -180,6 +180,8 @@ class NewsController extends Controller
             }
 
             $syncTags = $news->tags()->sync($tagsList);
+        }else{
+            $syncTags = $news->tags()->sync([]);
         }
 
         // Save Images
