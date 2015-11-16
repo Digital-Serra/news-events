@@ -10,23 +10,16 @@
     @foreach($allNews as $singleNews)
     <div class="item  col-xs-4 col-lg-4">
         <div class="thumbnail">
-            <img class="img-responsive" style="width: auto; height:300px !important" src="{{ $singleNews->pictures()->get()->first() != null ? asset($singleNews->pictures()->get()->first()->path) : '' }}"
-                 alt=""/>
-
+            @if($singleNews->pictures()->get()->first() != null)
+                <img class="img-responsive" style="width: auto; height:300px !important" src="{{ asset($singleNews->pictures()->get()->first()->path) }}" alt=""/>
+            @else
+                <img class="img-responsive" style="width: auto; height:300px !important" src="http://humctr.jhu.edu/sebin/l/o/no%20image.jpg" alt="" />
+            @endif
             <div class="caption" style="word-wrap: break-word;">
                 <h4 class="list-group-item-heading">
                     {{ $singleNews->title }}</h4>
                 <br>
                 <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <p class="lead" style="color: red;">
-                            <s class="text-left">
-                                @if($singleNews->base_value)
-                                R${{ $singleNews->base_value }}
-                                @endif
-                            </s>
-                        </p>
-                    </div>
                     <div class="col-xs-12 col-md-12 text-center">
                         @foreach($singleNews->tags()->get() as $tag)
                             <span class="label label-info">{{ $tag->name }}</span>
