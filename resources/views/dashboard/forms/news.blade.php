@@ -32,17 +32,19 @@
 </div>
 <div class="form-group">
     @if(isset($edit_news) && $edit_news != null)
-        {!! Form::label('currentImages[]','Editar imagens',['class'=>'col-sm-2 control-label']) !!}
+        @if($images != [])
+            {!! Form::label('currentImages[]','Editar imagens',['class'=>'col-sm-2 control-label']) !!}
 
-        <div class="col-sm-10">
-            <div class="row">
-                Marque as imagens que deseja excluir: <br>
-                @foreach($images as $image)
-                    {!! Form::checkbox('currentImages[]', $image, false) !!}
-                    <img src="{{asset($image)}}" alt="" class="" width="100" height="100"> <br><br>
-                @endforeach
+            <div class="col-sm-10">
+                <div class="row">
+                    Marque as imagens que deseja excluir: <br>
+                    @foreach($images as $image)
+                        {!! Form::checkbox('currentImages[]', $image, false) !!}
+                        <img src="{{asset($image)}}" alt="" class="" width="100" height="100"> <br><br>
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 </div>
     @endif
 <div class="form-group">
