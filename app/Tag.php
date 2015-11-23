@@ -11,7 +11,7 @@ class Tag extends Model
     ];
 
     /**
-     * Reltionship between tag and news
+     * Relationship between tag and news
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function news()
